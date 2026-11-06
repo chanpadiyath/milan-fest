@@ -1,0 +1,21 @@
+# Render Blueprint for the Milan API. In Render: New > Blueprint > pick this repo.
+services:
+  - type: web
+    name: milan-api
+    runtime: node
+    rootDir: backend
+    plan: free
+    buildCommand: npm ci --omit=dev
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: 22.14.0
+      - key: DATABASE_PATH
+        value: ./data/milan.db
+      - key: SEED_ON_START
+        value: "true"
+      - key: ADMIN_API_KEY
+        generateValue: true
+      - key: CORS_ORIGIN
+        sync: false # set to your Vercel URL, e.g. https://milan-fest.vercel.app

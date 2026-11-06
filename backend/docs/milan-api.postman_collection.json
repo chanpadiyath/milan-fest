@@ -1,0 +1,128 @@
+{
+  "info": {
+    "name": "Milan API",
+    "description": "Event discovery and registration API for Milan 2027. Set the baseUrl and adminKey collection variables before running.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:4000" },
+    { "key": "adminKey", "value": "paste-your-admin-key" },
+    { "key": "eventId", "value": "1" }
+  ],
+  "item": [
+    {
+      "name": "Health check",
+      "request": { "method": "GET", "url": "{{baseUrl}}/api/health" }
+    },
+    {
+      "name": "List categories",
+      "request": { "method": "GET", "url": "{{baseUrl}}/api/categories" }
+    },
+    {
+      "name": "List events",
+      "request": { "method": "GET", "url": "{{baseUrl}}/api/events" }
+    },
+    {
+      "name": "Filter events by category",
+      "request": {
+        "method": "GET",
+        "url": { "raw": "{{baseUrl}}/api/events?category=Dance", "host": ["{{baseUrl}}"], "path": ["api", "events"], "query": [{ "key": "category", "value": "Dance" }] }
+      }
+    },
+    {
+      "name": "Search events",
+      "request": {
+        "method": "GET",
+        "url": { "raw": "{{baseUrl}}/api/events?q=robo", "host": ["{{baseUrl}}"], "path": ["api", "events"], "query": [{ "key": "q", "value": "robo" }] }
+      }
+    },
+    {
+      "name": "Get event by ID",
+      "request": { "method": "GET", "url": "{{baseUrl}}/api/events/{{eventId}}" }
+    },
+    {
+      "name": "Get event: not found (404)",
+      "request": { "method": "GET", "url": "{{baseUrl}}/api/events/99999" }
+    },
+    {
+      "name": "Create event (admin)",
+      "event": [
+        {
+          "listen": "test",
+          "script": { "exec": ["if (pm.response.code === 201) pm.collectionVariables.set('eventId', pm.response.json().data.id);"], "type": "text/javascript" }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "X-Admin-Key", "value": "{{adminKey}}" }
+        ],
+        "url": "{{baseUrl}}/api/events",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Postman Test Quiz\",\n  \"description\": \"A two-seat quiz created from Postman to test capacity limits.\",\n  \"category\": \"Literary\",\n  \"venue\": \"Mini Hall 1\",\n  \"startTime\": \"2027-03-19T16:00:00+05:30\",\n  \"capacity\": 2\n}"
+        }
+      }
+    },
+    {
+      "name": "Create event: missing admin key (401)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/events",
+        "body": { "mode": "raw", "raw": "{ \"title\": \"Should fail\" }" }
+      }
+    },
+    {
+      "name": "Create event: invalid fields (400)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "X-Admin-Key", "value": "{{adminKey}}" }
+        ],
+        "url": "{{baseUrl}}/api/events",
+        "body": { "mode": "raw", "raw": "{ \"title\": \"x\", \"category\": \"Cooking\", \"capacity\": 0 }" }
+      }
+    },
+    {
+      "name": "Register participant",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/events/{{eventId}}/registrations",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Sample Student\",\n  \"email\": \"sample.student@example.com\",\n  \"college\": \"Sample College\",\n  \"phone\": \"9876543210\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Register again: duplicate (409)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/events/{{eventId}}/registrations",
+        "body": { "mode": "raw", "raw": "{\n  \"name\": \"Sample Student\",\n  \"email\": \"SAMPLE.student@example.com\",\n  \"college\": \"Sample College\"\n}" }
+      }
+    },
+    {
+      "name": "Register: invalid fields (400)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/events/{{eventId}}/registrations",
+        "body": { "mode": "raw", "raw": "{ \"name\": \"A\", \"email\": \"not-an-email\" }" }
+      }
+    },
+    {
+      "name": "List registrations for event (admin)",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "X-Admin-Key", "value": "{{adminKey}}" }],
+        "url": "{{baseUrl}}/api/events/{{eventId}}/registrations"
+      }
+    }
+  ]
+}
