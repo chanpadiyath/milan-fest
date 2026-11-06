@@ -3,7 +3,7 @@
 Responsive website for **Milan 2027**, where visitors discover events, search and filter them, view details, and register.
 
 - **Stack:** React 19, React Router 7, Vite 6, plain CSS with design tokens, Vitest
-- **Live site:** `https://<your-project>.vercel.app` _(fill in after deploying)_
+- **Live site:** https://milan-fest-green.vercel.app
 
 ## Run locally
 

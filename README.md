@@ -4,8 +4,8 @@ DSA Tech Team Recruitment, Web Development track. A full-stack site for **Milan*
 
 | Part | Folder | Stack | Live |
 |---|---|---|---|
-| Frontend (Track B) | [`frontend/`](frontend/README.md) | React 19, React Router, Vite | `https://<your-project>.vercel.app` |
-| Backend (Track C) | [`backend/`](backend/README.md) | Node.js, Express 5, SQLite | `https://<your-service>.onrender.com` |
+| Frontend (Track B) | [`frontend/`](frontend/README.md) | React 19, React Router, Vite | https://milan-fest-green.vercel.app |
+| Backend (Track C) | [`backend/`](backend/README.md) | Node.js, Express 5, SQLite | https://milan-api-uldz.onrender.com |
 
 ```
 Browser ──► React app (Vercel) ──fetch──► Milan API (Render) ──► SQLite

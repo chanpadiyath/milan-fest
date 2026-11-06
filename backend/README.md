@@ -4,7 +4,7 @@ REST API for event discovery and participant registration for **Milan 2027**, th
 
 - **Stack:** Node.js 22+, Express 5, SQLite (Node's built-in `node:sqlite`, so there's no native module to compile), `helmet`, `cors`
 - **Tests:** Node's built-in test runner plus `supertest`, 18 tests
-- **Live base URL:** `https://<your-render-service>.onrender.com` _(fill in after deploying)_
+- **Live base URL:** https://milan-api-uldz.onrender.com (try [/api/events](https://milan-api-uldz.onrender.com/api/events))
 
 ## Run locally
 
